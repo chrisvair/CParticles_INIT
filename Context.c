@@ -139,10 +139,8 @@ void addDynamicContactConstraints(Context* context)
 {
   if (context->num_particles == 0) return;
   for (int i = 0; i<context->num_particles; i++){
-    for (int j = 0; j<context->num_particles; j++){
-      if (i!=j){
+    for (int j = i+1; j<context->num_particles; j++){
       checkParticleCollisions(context, i, j);
-      }
     }
   }
 }
