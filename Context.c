@@ -17,15 +17,19 @@ Particle getParticle(Context* context, int id)
 
 void addParticle(Context* context, float x, float y, float radius, float mass, int draw_id)
 {
-    assert(context->num_particles<context->capacity_particles); // currently no resize in context
-    context->particles[context->num_particles].position.x = x;
-    context->particles[context->num_particles].position.y = y;
-    context->particles[context->num_particles].velocity.x = 0.0F;
-    context->particles[context->num_particles].velocity.y = 0.0F;
-    context->particles[context->num_particles].inv_mass = 1.0F/mass;
-    context->particles[context->num_particles].radius = radius;
-    context->particles[context->num_particles].draw_id = draw_id;
-    context->num_particles += 1;
+  // Check that the particle is not added inside a Ground Sphere
+  if (isInGroundSphere(context, x, y, radius)){
+    return;
+  }
+  assert(context->num_particles<context->capacity_particles); // currently no resize in context
+  context->particles[context->num_particles].position.x = x;
+  context->particles[context->num_particles].position.y = y;
+  context->particles[context->num_particles].velocity.x = 0.0F;
+  context->particles[context->num_particles].velocity.y = 0.0F;
+  context->particles[context->num_particles].inv_mass = 1.0F/mass;
+  context->particles[context->num_particles].radius = radius;
+  context->particles[context->num_particles].draw_id = draw_id;
+  context->num_particles += 1;
 }
 
 // ------------------------------------------------

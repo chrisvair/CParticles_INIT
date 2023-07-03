@@ -14,6 +14,7 @@ typedef struct PlanCollider {
   Vec2 end;
 } PlanCollider;
 
+int isInGroundSphere(Context* context, float x, float y, float radius);
 void checkContactWithPlane(Context* context, int particle_id, PlanCollider* collider);
 void checkContactWithSphere(Context* context, int particle_id, SphereCollider* collider);
 

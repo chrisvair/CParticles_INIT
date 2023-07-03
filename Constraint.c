@@ -3,6 +3,19 @@
 #include "Constraint.h"
 #include <stdio.h>
 
+int isInGroundSphere(Context* context, float x, float y, float radius){
+  Vec2 position = create_vec2(x, y);
+  for(int j=0; j<context->num_ground_sphere; j++){
+    Vec2 c = context->ground_spheres[j].center;
+    float R = context->ground_spheres[j].radius;
+    float sdf = norm(vect_sub(position, c)) - R;
+    if(sdf < radius){
+    return 1;
+    }
+  }
+  return 0;
+}
+
 void checkContactWithPlane(Context* context, int particle_id, PlanCollider* collider){
     Particle *p = &context->particles[particle_id];
     Vec2 n = create_vec2(0, 1);
