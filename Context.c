@@ -17,15 +17,19 @@ Particle getParticle(Context* context, int id)
 
 void addParticle(Context* context, float x, float y, float radius, float mass, int draw_id)
 {
-    assert(context->num_particles<context->capacity_particles); // currently no resize in context
-    context->particles[context->num_particles].position.x = x;
-    context->particles[context->num_particles].position.y = y;
-    context->particles[context->num_particles].velocity.x = 0.0F;
-    context->particles[context->num_particles].velocity.y = 0.0F;
-    context->particles[context->num_particles].inv_mass = 1.0F/mass;
-    context->particles[context->num_particles].radius = radius;
-    context->particles[context->num_particles].draw_id = draw_id;
-    context->num_particles += 1;
+  // Check that the particle is not added inside a Ground Sphere
+  if (isInGroundSphere(context, x, y, radius)){
+    return;
+  }
+  assert(context->num_particles<context->capacity_particles); // currently no resize in context
+  context->particles[context->num_particles].position.x = x;
+  context->particles[context->num_particles].position.y = y;
+  context->particles[context->num_particles].velocity.x = 0.0F;
+  context->particles[context->num_particles].velocity.y = 0.0F;
+  context->particles[context->num_particles].inv_mass = 1.0F/mass;
+  context->particles[context->num_particles].radius = radius;
+  context->particles[context->num_particles].draw_id = draw_id;
+  context->num_particles += 1;
 }
 
 // ------------------------------------------------
@@ -40,7 +44,7 @@ void setDrawId(Context* context, int sphere_id, int draw_id)
 SphereCollider getGroundSphereCollider(Context* context, int id)
 {
   return context->ground_spheres[id];
-  // *(c->g_s+i)
+  //same as *(c->g_s+i)
 }
 
 PlanCollider getPlanCollider(Context* context)
@@ -133,6 +137,14 @@ void updateExpectedPosition(Context* context, float dt)
 
 void addDynamicContactConstraints(Context* context)
 {
+  if (context->num_particles == 0) return;
+  for (int i = 0; i<context->num_particles; i++){
+    for (int j = 0; j<context->num_particles; j++){
+      if (i!=j){
+      checkParticleCollisions(context, i, j);
+      }
+    }
+  }
 }
 
 void addStaticContactConstraints(Context* context)
@@ -155,12 +167,8 @@ void updateVelocityAndPosition(Context* context, float dt)
   if (context->num_particles==0) return;
   Particle *p = context->particles;
   for (int i = 0; i<context->num_particles; i++){
-    (p+i)->velocity.y = (1.0/dt) * ((p+i)->next_pos.y - (p+i)->position.y);
-    (p+i)->position.y = (p+i)->next_pos.y;
-    (p+i)->velocity.x = (1.0/dt) * ((p+i)->next_pos.x - (p+i)->position.x);
-    (p+i)->position.x = (p+i)->next_pos.x;
-    //(p+i)->velocity = *scalar_mult(vect_sub(&(p+i)->next_pos, &(p+i)->position), (1.0/dt));
-    //(p+i)->position = (p+i)->next_pos;
+    (p+i)->velocity = scalar_mult(vect_sub((p+i)->next_pos, (p+i)->position), (1.0/dt));
+    (p+i)->position = (p+i)->next_pos;
   }
 }
 
@@ -172,18 +180,3 @@ void deleteContactConstraints(Context* context)
 {
 }
 
-// ------------------------------------------------
-
-/*
-int main()
-{
-  Context* context = initializeContext(10);
-  addParticle(context, 100, 5, 10, 1, 0);
-  printf("%f\n", getParticle(context, 0).position.y);
-  applyExternalForce(context,1);
-  updateExpectedPosition(context,1);
-  updateVelocityAndPosition(context, 1);
-  printf("%f\n", getParticle(context,0).position.y);
-  return 0;
-}
-*/
