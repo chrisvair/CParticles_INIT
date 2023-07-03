@@ -10,7 +10,10 @@ void checkContactWithPlane(Context* context, int particle_id, PlanCollider* coll
     Vec2 pc = (collider->start);
     float r = p->radius;
     if ((scalar_product(vect_sub(pi, pc),n)) < r){
-        p-> radius = 4;
+        Vec2 qc = vect_sub(pi, scalar_mult(vect_sub(pi, pc),scalar_product(n,n)));
+        float C =  scalar_product(vect_sub(pi, qc),n) - r;
+        Vec2 delta = scalar_mult(n, -C);
+        p->next_pos = vect_sum(p->position, delta);
     }
 }
 
@@ -20,7 +23,13 @@ void checkContactWithSphere(Context* context, int particle_id, SphereCollider* c
     float r = p->radius;
     Vec2 c = collider->center;
     float R = collider->radius;
-    if (norm(vect_sub(pi, c))-R < r){
-        p-> radius = 2;
+    float sdf = norm(vect_sub(pi, c))- R;
+    if ( sdf < r){
+        Vec2 n = normalisation(vect_sub(pi, c));
+        Vec2 pc = vect_sub(p->next_pos, scalar_mult(n, sdf));
+        Vec2 qc = vect_sub(pi, scalar_mult(vect_sub(pi, pc),scalar_product(n,n)));
+        float C =  scalar_product(vect_sub(pi, qc),n) - r;
+        Vec2 delta = scalar_mult(n, -C);
+        p->next_pos = vect_sum(p->position, delta);
     }
 }

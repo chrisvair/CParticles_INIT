@@ -40,7 +40,7 @@ void setDrawId(Context* context, int sphere_id, int draw_id)
 SphereCollider getGroundSphereCollider(Context* context, int id)
 {
   return context->ground_spheres[id];
-  // *(c->g_s+i)
+  //same as *(c->g_s+i)
 }
 
 PlanCollider getPlanCollider(Context* context)
@@ -156,12 +156,8 @@ void updateVelocityAndPosition(Context* context, float dt)
   if (context->num_particles==0) return;
   Particle *p = context->particles;
   for (int i = 0; i<context->num_particles; i++){
-    (p+i)->velocity.y = (1.0/dt) * ((p+i)->next_pos.y - (p+i)->position.y);
-    (p+i)->position.y = (p+i)->next_pos.y;
-    (p+i)->velocity.x = (1.0/dt) * ((p+i)->next_pos.x - (p+i)->position.x);
-    (p+i)->position.x = (p+i)->next_pos.x;
-    //(p+i)->velocity = *scalar_mult(vect_sub(&(p+i)->next_pos, &(p+i)->position), (1.0/dt));
-    //(p+i)->position = (p+i)->next_pos;
+    (p+i)->velocity = scalar_mult(vect_sub((p+i)->next_pos, (p+i)->position), (1.0/dt));
+    (p+i)->position = (p+i)->next_pos;
   }
 }
 
@@ -173,18 +169,3 @@ void deleteContactConstraints(Context* context)
 {
 }
 
-// ------------------------------------------------
-
-/*
-int main()
-{
-  Context* context = initializeContext(10);
-  addParticle(context, 100, 5, 10, 1, 0);
-  printf("%f\n", getParticle(context, 0).position.y);
-  applyExternalForce(context,1);
-  updateExpectedPosition(context,1);
-  updateVelocityAndPosition(context, 1);
-  printf("%f\n", getParticle(context,0).position.y);
-  return 0;
-}
-*/
