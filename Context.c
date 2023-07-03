@@ -174,16 +174,3 @@ void deleteContactConstraints(Context* context)
 
 // ------------------------------------------------
 
-/*
-int main()
-{
-  Context* context = initializeContext(10);
-  addParticle(context, 100, 5, 10, 1, 0);
-  printf("%f\n", getParticle(context, 0).position.y);
-  applyExternalForce(context,1);
-  updateExpectedPosition(context,1);
-  updateVelocityAndPosition(context, 1);
-  printf("%f\n", getParticle(context,0).position.y);
-  return 0;
-}
-*/
