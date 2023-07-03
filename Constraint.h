@@ -2,7 +2,7 @@
 #define CONSTRAINT_H_
 
 // ------------------------------------------------
-typedef struct Context Context ;
+typedef struct Context Context;
 
 typedef struct SphereCollider {
   Vec2 center;
@@ -17,6 +17,7 @@ typedef struct PlanCollider {
 void checkContactWithPlane(Context* context, int particle_id, PlanCollider* collider);
 void checkContactWithSphere(Context* context, int particle_id, SphereCollider* collider);
 
+//void enforceStaticGroundConstraint(GroundConstraint* constraint, Particle* particle);
 // ------------------------------------------------
 
 #endif

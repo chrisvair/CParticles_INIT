@@ -134,6 +134,14 @@ void updateExpectedPosition(Context* context, float dt)
 
 void addDynamicContactConstraints(Context* context)
 {
+  if (context->num_particles == 0) return;
+  for (int i = 0; i<context->num_particles; i++){
+    for (int j = 0; j<context->num_particles; j++){
+      if (i!=j){
+      checkSphereCollisions(context, i, j);
+      }
+    }
+  }
 }
 
 void addStaticContactConstraints(Context* context)
