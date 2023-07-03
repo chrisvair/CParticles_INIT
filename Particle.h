@@ -1,3 +1,6 @@
+#pragma once
+#include <stdint.h>
+
 #ifndef PARTICLE_H_
 #define PARTICLE_H_
 
@@ -13,7 +16,7 @@ typedef struct Particle {
   float radius;    // radius of the particle
   int solid_id;    // all particles associated to the same solid should have the same id
   int draw_id;     // id used to identify drawing element associated to the sphere
-  //uint32_t status; // can be used as a bitfield to store additional information
+  uint32_t status; // can be used as a bitfield to store additional information
 } Particle;
 
 // ------------------------------------------------
