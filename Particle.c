@@ -1,8 +1,7 @@
-#pragma once
-
 #include "Vec2.h"
 #include <stdint.h>
 #include "Context.h"
+#include "Particle.h"
 
 void checkParticleCollisions(Context* context, int particle_id_i, int particle_id_j){
     Particle *pi = &context->particles[particle_id_i];
