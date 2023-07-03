@@ -1,7 +1,10 @@
 #pragma once
-
-#include "Vec2.h"
 #include <stdint.h>
+
+#ifndef PARTICLE_H_
+#define PARTICLE_H_
+
+typedef struct Context Context;
 
 // ------------------------------------------------
 
@@ -18,3 +21,8 @@ typedef struct Particle {
 
 // ------------------------------------------------
 
+//PARTICLES COLLISIONS CHANGE FILE LATER
+void checkParticleCollisions(Context* context, int particle_id_1, int particle_id_2);
+//void enforceSphereCollisions(Particle* particle1, Particle* particle1);
+
+#endif

@@ -15,6 +15,9 @@ typedef struct Context {
   int num_ground_sphere;
   SphereCollider* ground_spheres;
   PlanCollider* plan;
+
+  // Ground constraint
+
 } Context;
 
 // ------------------------------------------------

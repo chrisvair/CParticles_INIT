@@ -9,7 +9,6 @@ typedef struct Vec2 {
 } Vec2;
 
 // ------------------------------------------------
-Vec2 initialise_vec2();
 Vec2 create_vec2(int x, int y);
 Vec2 scalar_mult(Vec2 vect, float scalar);
 Vec2 vect_sum(Vec2 vect1, Vec2 vect2);
