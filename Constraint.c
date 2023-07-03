@@ -10,7 +10,7 @@ int isInGroundSphere(Context* context, float x, float y, float radius){
     float R = context->ground_spheres[j].radius;
     float sdf = norm(vect_sub(position, c)) - R;
     if(sdf < radius){
-    return 1;
+      return 1;
     }
   }
   return 0;
@@ -38,11 +38,11 @@ void checkContactWithSphere(Context* context, int particle_id, SphereCollider* c
     float R = collider->radius;
     float sdf = norm(vect_sub(pi, c))- R;
     if ( sdf < r){
-        Vec2 n = normalisation(vect_sub(pi, c));
-        Vec2 pc = vect_sub(p->next_pos, scalar_mult(n, sdf));
-        Vec2 qc = vect_sub(pi, scalar_mult(vect_sub(pi, pc),scalar_product(n,n)));
-        float C =  scalar_product(vect_sub(pi, qc),n) - r;
-        Vec2 delta = scalar_mult(n, -C);
-        p->next_pos = vect_sum(p->position, delta);
+      Vec2 n = normalisation(vect_sub(pi, c));
+      Vec2 pc = vect_sub(p->next_pos, scalar_mult(n, sdf));
+      Vec2 qc = vect_sub(pi, scalar_mult(vect_sub(pi, pc),scalar_product(n,n)));
+      float C =  scalar_product(vect_sub(pi, qc),n) - r;
+      Vec2 delta = scalar_mult(n, -C);
+      p->next_pos = vect_sum(p->position, delta);
     }
 }
