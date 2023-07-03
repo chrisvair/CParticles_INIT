@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "Context.h"
 
-void checkSphereCollisions(Context* context, int particle_id_i, int particle_id_j){
+void checkParticleCollisions(Context* context, int particle_id_i, int particle_id_j){
     Particle *pi = &context->particles[particle_id_i];
     Particle *pj = &context->particles[particle_id_j];
     Vec2 posi = pi->next_pos;

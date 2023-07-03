@@ -4,15 +4,8 @@
 #include <math.h> 
 
 
-Vec2 initialise_vec2(){
-    Vec2 vect;
-    vect.x = 0;
-    vect.y = 0;
-    return vect;
-}
-
 Vec2 create_vec2(int x, int y){
-    Vec2 vect = initialise_vec2();
+    Vec2 vect;
     vect.x = x;
     vect.y = y;
     return vect;
@@ -33,7 +26,7 @@ Vec2 vect_sum(Vec2 vect1, Vec2 vect2){
 }
 
 Vec2 vect_sub(Vec2 vect1, Vec2 vect2){
-    Vec2 sub_vect = initialise_vec2();
+    Vec2 sub_vect;
     sub_vect.x = vect1.x - vect2.x;
     sub_vect.y = vect1.y - vect2.y;
     return sub_vect;
@@ -45,7 +38,7 @@ float scalar_product(Vec2 vect1, Vec2 vect2){
 }
 
 Vec2 normalisation(Vec2 vect){
-    Vec2 norm_vect = initialise_vec2();
+    Vec2 norm_vect;
     float norm = sqrt(vect.x*vect.x + vect.y*vect.y);
     norm_vect.x = vect.x/norm;
     norm_vect.y = vect.y/norm;

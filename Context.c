@@ -113,7 +113,6 @@ void updatePhysicalSystem(Context* context, float dt, int num_constraint_relaxat
 
 // ------------------------------------------------
 
-//TO BE CHANGED TO NEW force BRANCH
 void applyExternalForce(Context* context, float dt)
 {
   if (context->num_particles == 0) return;
@@ -142,7 +141,7 @@ void addDynamicContactConstraints(Context* context)
   for (int i = 0; i<context->num_particles; i++){
     for (int j = 0; j<context->num_particles; j++){
       if (i!=j){
-      checkSphereCollisions(context, i, j);
+      checkParticleCollisions(context, i, j);
       }
     }
   }

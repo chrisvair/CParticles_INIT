@@ -19,7 +19,7 @@ typedef struct Particle {
 // ------------------------------------------------
 
 //PARTICLES COLLISIONS CHANGE FILE LATER
-void checkSphereCollisions(Context* context, int particle_id_1, int particle_id_2);
+void checkParticleCollisions(Context* context, int particle_id_1, int particle_id_2);
 //void enforceSphereCollisions(Particle* particle1, Particle* particle1);
 
 #endif
