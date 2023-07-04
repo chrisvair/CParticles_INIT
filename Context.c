@@ -67,8 +67,8 @@ Context* initializeContext(int capacity)
   context->ground_spheres = malloc(4*sizeof(SphereCollider));
   Vec2 p0 = {3.0f, 5.0f};
   Vec2 p1 = {-3.0f, 5.0f};
-  Vec2 p2 = {7.0f, -3.0f};
-  Vec2 p3 = {-7.0f, -3.0f};
+  Vec2 p2 = {7.0f, -2.0f};
+  Vec2 p3 = {-7.0f, -2.0f};
   context->ground_spheres[0].center = p0;
   context->ground_spheres[1].center = p1;
   context->ground_spheres[2].center = p2;
@@ -88,19 +88,22 @@ Context* initializeContext(int capacity)
   context->plan[0].start = create_vec2(-10.0f, -5.0f);
   context->plan[0].end = create_vec2(10.0f, -5.0f);
   context->plan[0].normal = create_vec2 (0,1);
-
-  //Base plane
+  context->plan[0].velocity_normal = create_vec2 (1,-0.9f);
+  //Left plane
   context->plan[1].start = create_vec2(-10.0f, 10.0f);
   context->plan[1].end = create_vec2(-10.0f, -5.0f);
   context->plan[1].normal = create_vec2 (1,0);
-  //Base plane
+  context->plan[1].velocity_normal = create_vec2 (-1,1);
+  //Right plane
   context->plan[2].start = create_vec2(10.0f, 10.0f);
   context->plan[2].end = create_vec2(10.0f, -5.0f);
   context->plan[2].normal = create_vec2 (-1,0);
-  //Base plane
+  context->plan[2].velocity_normal = create_vec2 (-1,1);
+  //Top plane
   context->plan[3].start = create_vec2(-10.0f, 10.0f);
   context->plan[3].end = create_vec2(10.0f, 10.0f);
   context->plan[3].normal = create_vec2 (0,-1);
+  context->plan[3].velocity_normal = create_vec2 (1,-0.95f);
 
   return context;
 }
@@ -120,7 +123,7 @@ void updatePhysicalSystem(Context* context, float dt, int num_constraint_relaxat
   }
 
   updateVelocityAndPosition(context, dt);
-  //applyFriction(context);
+  applyFriction(context);
 
   //deleteContactConstraints(context);
 }
@@ -155,6 +158,7 @@ void updateExpectedPosition(Context* context, float dt)
   Particle *p = context->particles;
   for (int i = 0; i < context->num_particles; i++){
     (p+i)->next_pos = vect_sum((p+i)->position, scalar_mult((p+i)->velocity, dt));
+    (p+i)->next_velocity = create_vec2(0, 0);
   }
 }
 
@@ -190,31 +194,34 @@ void updateVelocityAndPosition(Context* context, float dt)
   if (context->num_particles==0) return;
   Particle *p = context->particles;
   for (int i = 0; i<context->num_particles; i++){
-    (p+i)->velocity = scalar_mult(vect_sub((p+i)->next_pos, (p+i)->position), (1.0/dt));
+    if((p+i)->next_velocity.x == 0 && (p+i)->next_velocity.y == 0 ){
+      (p+i)->velocity = scalar_mult(vect_sub((p+i)->next_pos, (p+i)->position), (1.0/dt));
+    } else {
+      (p+i)->velocity = (p+i)->next_velocity;
+    }
     (p+i)->position = (p+i)->next_pos;
   }
 }
 
 void applyFriction(Context* context)
 {
-  /*
   if (context->num_particles == 0) return;
   Particle* particles = context->particles;
   // Friction coefficient (adjust as needed)
-  float frictionCoeff = 0.2f;
-
+  float frictionCoeff = 0.99f;
+  PlanCollider plan = context->plan[0];
+  Vec2 n = plan.normal;
+  Vec2 pc = plan.start;
   for (int i = 0; i < context->num_particles; i++) {
-    // Calculate the magnitude of the velocity
-    float velocityMagnitude = norm(particles[i].velocity);
-
-    // Calculate the friction force
-    Vec2 frictionForce;
-    frictionForce = scalar_mult(particles[i].velocity, -frictionCoeff);
-
-    // Apply the friction force
-    particles[i].velocity = vect_sum(particles[i].velocity, frictionForce);
+    Vec2 pi = (particles+i)->next_pos;
+    float r = (particles+i)->radius;
+    if ((scalar_product(vect_sub(pi, pc),n))-r <= 0.01){
+      // Calculate the magnitude of the velocity
+      float velocityMagnitude = norm(particles[i].velocity);
+      // Apply the friction force
+      particles[i].velocity.x *= frictionCoeff;
+    }
   }
-  */
 }
 
 void deleteContactConstraints(Context* context)

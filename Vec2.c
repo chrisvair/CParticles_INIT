@@ -4,7 +4,7 @@
 #include <math.h> 
 
 
-Vec2 create_vec2(int x, int y){
+Vec2 create_vec2(float x, float y){
     Vec2 vect;
     vect.x = x;
     vect.y = y;
@@ -51,6 +51,14 @@ float norm(Vec2 vect){
 }
 
 Vec2 normal_plan(Vec2 start, Vec2 end){
-    Vec2 n = create_vec2(start.y - end.y, end.x - start.x);
-    return normalisation(n);
+    Vec2 direction = vect_sub(end, start);
+    return normalisation(create_vec2(-direction.y, direction.x));
 }
+
+Vec2 product(Vec2 vect1, Vec2 vect2){
+    Vec2 product_vect;
+    product_vect.x = vect1.x * vect2.x;
+    product_vect.y = vect1.y * vect2.y;
+    return product_vect;
+}
+

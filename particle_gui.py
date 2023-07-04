@@ -23,6 +23,7 @@ class PARTICLE(Structure):
     _fields_ = [("position", c_float*2),
                 ("next_pos", c_float*2),
                 ("velocity", c_float*2),
+                ("next_velocity", c_float*2),
                 ("inv_mass", c_float),
                 ("radius",   c_float),
                 ("solid_id", c_int),
@@ -35,7 +36,8 @@ class SPHERE_COLLIDER(Structure):
 class PLAN_COLLIDER(Structure):
     _fields_ = [("start", c_float*2),
                 ("end", c_float*2),
-                ("normal", c_float*2)]
+                ("normal", c_float*2),
+                ("velocity_normal", c_float*2)]
 
 class CONTEXT(Structure):
     _fields_ = [("num_particles", c_int),

@@ -13,6 +13,7 @@ typedef struct PlanCollider {
   Vec2 start;
   Vec2 end;
   Vec2 normal;
+  Vec2 velocity_normal;
 } PlanCollider;
 
 int isInGroundSphere(Context* context, float x, float y, float radius);

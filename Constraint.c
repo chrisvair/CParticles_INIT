@@ -19,6 +19,7 @@ int isInGroundSphere(Context* context, float x, float y, float radius){
 void checkContactWithPlane(Context* context, int particle_id, PlanCollider* collider){
     Particle *p = &context->particles[particle_id];
     Vec2 n = collider->normal;
+    Vec2 velocity_normal = collider->velocity_normal;
     Vec2 pi = (p->next_pos);
     Vec2 pc = (collider->start);
     float r = p->radius;
@@ -26,9 +27,11 @@ void checkContactWithPlane(Context* context, int particle_id, PlanCollider* coll
         //printf("pi = (%f,%f), pc = (%f,%f), n = (%f,%f)\n", pi.x, pi.y, pc.x, pc.y, n.x, n.y);
         Vec2 qc = vect_sub(pi, scalar_mult(n, scalar_product(vect_sub(pi, pc), n)));
         float C =  scalar_product(vect_sub(pi, qc),n) - r;
-        Vec2 delta = scalar_mult(n, -C);
-        p->next_pos = vect_sum(p->position, delta);
-        //printf("qc = (%f,%f), C = %f, delta = (%f,%f), nest_pos = (%f,%f)\n", qc.x, qc.y, C, delta.x, delta.y, p->next_pos.x, p->next_pos.y);
+        Vec2 delta = scalar_mult(n, -2*C);
+        //printf("position = (%f,%f), first_next_pos = (%f,%f)\n", p->position.x, p->position.y, p->next_pos.x, p->next_pos.y);
+        p->next_pos = vect_sum(p->next_pos, delta);
+        p->next_velocity = product(p->velocity, velocity_normal);
+        //printf("qc = (%f,%f), C = %f, delta = (%f,%f), new_next_pos = (%f,%f)\n", qc.x, qc.y, C, delta.x, delta.y, p->next_pos.x, p->next_pos.y);
     }
 }
 

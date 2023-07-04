@@ -12,6 +12,7 @@ typedef struct Particle {
   Vec2 position;   // current position of the particle
   Vec2 next_pos;   // only used during update loop
   Vec2 velocity;   // current velocity of the particle
+  Vec2 next_velocity; //only used during update loop
   float inv_mass;  // 1/mass of the particle
   float radius;    // radius of the particle
   int solid_id;    // all particles associated to the same solid should have the same id
