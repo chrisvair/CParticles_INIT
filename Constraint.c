@@ -47,7 +47,7 @@ void checkContactWithSphere(Context* context, int particle_id, SphereCollider* c
       Vec2 pc = vect_sub(p->next_pos, scalar_mult(n, sdf));
       Vec2 qc = vect_sub(pi, scalar_mult(vect_sub(pi, pc),scalar_product(n,n)));
       float C =  scalar_product(vect_sub(pi, qc),n) - r;
-      Vec2 delta = scalar_mult(n, -C);
-      p->next_pos = vect_sum(p->position, delta);
+      Vec2 delta = scalar_mult(n, -2*C);
+      p->next_pos = vect_sum(p->next_pos, delta);
     }
 }
