@@ -157,6 +157,7 @@ class ParticleUI :
         print(repr(event.char))
     def enterCallback(self, event):
         self.window.destroy()
+        c_lib.freeMemory(self.context)
 
 
 gui = ParticleUI()

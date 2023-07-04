@@ -21,6 +21,9 @@ Particle.o: Particle.c Particle.h Vec2.h
 Context.o: Context.c Context.h Constraint.h Particle.h Vec2.h
 	gcc $(CFLAGS) -c Context.c -o Context.o
 
+Test.o: Test.c Test.h Context.h Constraint.h Particle.h Vec2.h
+	gcc $(CFLAGS) -c Test.c -o Test.o
+
 clean:
 	rm *.o
 

@@ -116,20 +116,21 @@ void updatePhysicalSystem(Context* context, float dt, int num_constraint_relaxat
   addStaticContactConstraints(context);
  
   for(int k=0; k<num_constraint_relaxation; ++k) {
-    projectConstraints(context);
+    //projectConstraints(context);
   }
 
   updateVelocityAndPosition(context, dt);
-  applyFriction(context);
+  //applyFriction(context);
 
-  deleteContactConstraints(context);
+  //deleteContactConstraints(context);
 }
 
 // ------------------------------------------------
 
 void applyExternalForce(Context* context, float dt)
 {
-  if (context->num_particles == 0) return;
+  if (context->num_particles == 0) 
+    return;
   Particle *p = context->particles;
   for (int i = 0; i<context->num_particles; i++){
     (p+i)->velocity.y += - dt*(p+i)->inv_mass * 9.81;
@@ -138,6 +139,14 @@ void applyExternalForce(Context* context, float dt)
 
 void dampVelocities(Context* context)
 {
+  if (context->num_particles == 0) return;
+  Particle* particles = context->particles;
+  // Damping factor (adjust as needed)
+  float dampingFactor = 0.999f;
+  for (int i = 0; i < context->num_particles; i++) {
+    particles[i].velocity.x *= dampingFactor;
+    particles[i].velocity.y *= dampingFactor;
+  }
 }
 
 void updateExpectedPosition(Context* context, float dt)
@@ -188,9 +197,35 @@ void updateVelocityAndPosition(Context* context, float dt)
 
 void applyFriction(Context* context)
 {
+  /*
+  if (context->num_particles == 0) return;
+  Particle* particles = context->particles;
+  // Friction coefficient (adjust as needed)
+  float frictionCoeff = 0.2f;
+
+  for (int i = 0; i < context->num_particles; i++) {
+    // Calculate the magnitude of the velocity
+    float velocityMagnitude = norm(particles[i].velocity);
+
+    // Calculate the friction force
+    Vec2 frictionForce;
+    frictionForce = scalar_mult(particles[i].velocity, -frictionCoeff);
+
+    // Apply the friction force
+    particles[i].velocity = vect_sum(particles[i].velocity, frictionForce);
+  }
+  */
 }
 
 void deleteContactConstraints(Context* context)
 {
 }
+
+void freeMemory(Context* context){
+  free(context->plan);
+  free(context->ground_spheres);
+  free(context->particles);
+  free(context);
+}
+
 

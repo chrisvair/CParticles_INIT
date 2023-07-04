@@ -60,4 +60,4 @@ void applyFriction(Context* context);
 void deleteContactConstraints(Context* context);
 
 // ------------------------------------------------
-
+void freeMemory(Context* context);
