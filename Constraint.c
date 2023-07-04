@@ -18,7 +18,7 @@ int isInGroundSphere(Context* context, float x, float y, float radius){
 
 void checkContactWithPlane(Context* context, int particle_id, PlanCollider* collider){
     Particle *p = &context->particles[particle_id];
-    Vec2 n = create_vec2(0, 1);
+    Vec2 n = collider->normal;
     Vec2 pi = (p->next_pos);
     Vec2 pc = (collider->start);
     float r = p->radius;
@@ -26,7 +26,7 @@ void checkContactWithPlane(Context* context, int particle_id, PlanCollider* coll
         Vec2 qc = vect_sub(pi, scalar_mult(vect_sub(pi, pc),scalar_product(n,n)));
         float C =  scalar_product(vect_sub(pi, qc),n) - r;
         Vec2 delta = scalar_mult(n, -C);
-        p->next_pos = vect_sum(p->position, delta);
+        p->next_pos = vect_sum(p->position , delta);
     }
 }
 

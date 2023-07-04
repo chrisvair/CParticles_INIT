@@ -12,6 +12,7 @@ typedef struct SphereCollider {
 typedef struct PlanCollider {
   Vec2 start;
   Vec2 end;
+  Vec2 normal;
 } PlanCollider;
 
 int isInGroundSphere(Context* context, float x, float y, float radius);

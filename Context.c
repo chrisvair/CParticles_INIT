@@ -47,9 +47,9 @@ SphereCollider getGroundSphereCollider(Context* context, int id)
   //same as *(c->g_s+i)
 }
 
-PlanCollider getPlanCollider(Context* context)
+PlanCollider getPlanCollider(Context* context, int id)
 {
-  return *(context->plan);
+  return context->plan[id];
 }
 
 // ------------------------------------------------
@@ -82,11 +82,25 @@ Context* initializeContext(int capacity)
   //}
 
   //Plan
-  context->plan = malloc(sizeof(PlanCollider));
-  context->plan->start.x = -10.0f;
-  context->plan->start.y = -5.0f;
-  context->plan->end.x = 10.0f;
-  context->plan->end.y = -5.0f;
+  context->num_plan= 4;
+  context->plan = malloc(4*sizeof(PlanCollider));
+  //Base plane
+  context->plan[0].start = create_vec2(-10.0f, -5.0f);
+  context->plan[0].end = create_vec2(10.0f, -5.0f);
+  context->plan[0].normal = create_vec2 (0,1);
+
+  //Base plane
+  context->plan[1].start = create_vec2(-10.0f, 10.0f);
+  context->plan[1].end = create_vec2(-10.0f, -5.0f);
+  context->plan[1].normal = create_vec2 (1,0);
+  //Base plane
+  context->plan[2].start = create_vec2(10.0f, 10.0f);
+  context->plan[2].end = create_vec2(10.0f, -5.0f);
+  context->plan[2].normal = create_vec2 (-1,0);
+  //Base plane
+  context->plan[3].start = create_vec2(-10.0f, 10.0f);
+  context->plan[3].end = create_vec2(10.0f, 10.0f);
+  context->plan[3].normal = create_vec2 (0,-1);
 
   return context;
 }
@@ -149,7 +163,9 @@ void addStaticContactConstraints(Context* context)
 {
   if (context->num_particles == 0) return;
   for (int i = 0; i<context->num_particles; i++){
-    checkContactWithPlane(context, i , context->plan);
+    for(int k=0; k<context->num_plan; k++){
+      checkContactWithPlane(context, i , &context->plan[k]);
+    }
     for(int j=0; j<context->num_ground_sphere; j++){
       checkContactWithSphere(context, i, &context->ground_spheres[j]);
     }

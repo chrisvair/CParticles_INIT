@@ -34,7 +34,8 @@ class SPHERE_COLLIDER(Structure):
 
 class PLAN_COLLIDER(Structure):
     _fields_ = [("start", c_float*2),
-                ("end", c_float*2)]
+                ("end", c_float*2),
+                ("normal", c_float*2)]
 
 class CONTEXT(Structure):
     _fields_ = [("num_particles", c_int),
@@ -42,6 +43,7 @@ class CONTEXT(Structure):
                 ("particles", POINTER(PARTICLE) ),
                 ("num_ground_sphere", c_int),
                 ("ground_spheres", POINTER(SPHERE_COLLIDER)),
+                ("num_plan", c_int),
                 ("plan", POINTER(PLAN_COLLIDER))]
 
 # ("pos", c_float*2) => fixed size array of two float
@@ -94,9 +96,9 @@ class ParticleUI :
                                               fill="SlateBlue1")
             c_lib.setDrawId(self.context, i, draw_id)
         # plan
-        line = c_lib.getPlanCollider(self.context)
-        #draw_id = self.canvas.create_line(*self.worldToView((-2,-1)), *self.worldToView((-1,4)), fill="blue", width=5)
+        line = c_lib.getPlanCollider(self.context, 0)
         draw_id = self.canvas.create_line(*self.worldToView(line.start), *self.worldToView((line.end)), fill="SlateBlue4", width=5)
+        c_lib.setDrawId(self.context, 0, draw_id)
         
         # Initialize Mouse and Key events
         self.canvas.bind("<Button-1>", lambda event: self.mouseCallback(event))

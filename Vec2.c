@@ -49,3 +49,8 @@ float norm(Vec2 vect){
     float norm = sqrt(vect.x*vect.x + vect.y*vect.y);
     return norm;
 }
+
+Vec2 normal_plan(Vec2 start, Vec2 end){
+    Vec2 n = create_vec2(start.y - end.y, end.x - start.x);
+    return normalisation(n);
+}

@@ -16,6 +16,7 @@ Vec2 vect_sub(Vec2 vect1, Vec2 vect2);
 float scalar_product(Vec2 vect1, Vec2 vect2);
 Vec2 normalisation(Vec2 vect);
 float norm(Vec2 vect);
+Vec2 normal_plan(Vec2 start, Vec2 end);
 // ------------------------------------------------
 
 #endif

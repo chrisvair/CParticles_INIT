@@ -14,6 +14,7 @@ typedef struct Context {
   // Ground colliders 
   int num_ground_sphere;
   SphereCollider* ground_spheres;
+  int num_plan;
   PlanCollider* plan;
 
   // Ground constraint
@@ -34,7 +35,7 @@ Particle getParticle(Context* context, int id);
 
 SphereCollider getGroundSphereCollider(Context* context, int id);
 
-PlanCollider getPlanCollider(Context* context);
+PlanCollider getPlanCollider(Context* context, int id);
 
 // ------------------------------------------------
 
