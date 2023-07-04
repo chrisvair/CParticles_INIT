@@ -15,9 +15,9 @@ void checkParticleCollisions(Context* context, int particle_id_i, int particle_i
     Vec2 xji = vect_sub(posi, posj);
     float C = norm(xji) - (ri+rj);
     if ( C < 0){
-        float sigma_i = C*(mi/(mi+mj));
+        float sigma_i = 2*C*(mi/(mi+mj));
         Vec2 delta_i = scalar_mult(normalisation(xji), -sigma_i);
-        float sigma_j = C*(mj/(mi+mj));
+        float sigma_j = 2*C*(mj/(mi+mj));
         Vec2 delta_j = scalar_mult(normalisation(xji), sigma_j);
         pi->next_pos = vect_sum(pi->position, delta_i);
         pj->next_pos = vect_sum(pj->position, delta_j);

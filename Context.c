@@ -145,7 +145,7 @@ void dampVelocities(Context* context)
   if (context->num_particles == 0) return;
   Particle* particles = context->particles;
   // Damping factor (adjust as needed)
-  float dampingFactor = 0.999f;
+  float dampingFactor = 0.998f;
   for (int i = 0; i < context->num_particles; i++) {
     particles[i].velocity.x *= dampingFactor;
     particles[i].velocity.y *= dampingFactor;
