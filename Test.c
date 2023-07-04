@@ -5,6 +5,7 @@
 #include "Constraint.h"
 #include "Context.h"
 
+//Chech the trajectory of one particle
 void test(){
     Context* local_context = initializeContext(5);
     addParticle(local_context, 0, 0, 0.2f, 1.0f, 1);

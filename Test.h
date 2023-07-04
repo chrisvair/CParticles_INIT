@@ -2,6 +2,5 @@
 #define TEST_H_
 
 void test();
-int main();
 
 #endif
