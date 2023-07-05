@@ -77,11 +77,8 @@ Context* initializeContext(int capacity)
   context->ground_spheres[1].radius = 1;
   context->ground_spheres[2].radius = 1.7;
   context->ground_spheres[3].radius = 1.7;
-  //for(int i; i<=4; i++){
-  //  context->ground_spheres[i].radius = 1.7;
-  //}
 
-  //Plan
+  //Plane
   context->num_plan= 4;
   context->plan = malloc(4*sizeof(PlanCollider));
   //Base plane
